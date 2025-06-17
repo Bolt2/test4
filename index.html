@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Cute Message</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Open+Sans:wght@400;700&display=swap");
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: "Open Sans", sans-serif;
+            background-color: #fcefee;
+            background-image:
+                linear-gradient(45deg, #f9d6d5 25%, transparent 25%),
+                linear-gradient(-45deg, #f9d6d5 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #f9d6d5 75%),
+                linear-gradient(-45deg, transparent 75%, #f9d6d5 75%);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .memo-card {
+            background-color: white;
+            width: 90%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 24px;
+            border: 2px dashed #ffb3c1;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: popIn 0.5s ease-out forwards;
+            display: none;
+        }
+
+        .memo-card.active {
+            display: block;
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .image-container {
+            background-color: #ffdde1;
+            padding: 10px;
+            border-radius: 16px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 10px rgba(255, 179, 193, 0.5);
+        }
+
+        .image-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            font-family: "Mochiy Pop One", sans-serif;
+            color: #ff69b4;
+            font-size: 1.8em;
+            text-shadow: 2px 2px #fff, 4px 4px #ffb3c1;
+            margin: 0 0 20px;
+        }
+
+        .sub-message {
+            border: 2px dashed #ffb3c1;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #e85d95;
+            font-weight: bold;
+        }
+
+        .emoticon {
+            font-family: monospace;
+            color: #f78fb3;
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+
+        .instructions {
+            color: #aaa;
+            margin-bottom: 25px;
+            font-size: 0.9em;
+        }
+
+        .next-button {
+            font-family: "Mochiy Pop One", sans-serif;
+            background: linear-gradient(45deg, #ff8fab, #ffafcc);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+            border-bottom: 4px solid #e85d95;
+        }
+
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .screenshot-gallery input,
+        .screenshot-gallery textarea {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 90%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .gallery-preview img {
+            max-width: 80%;
+            border-radius: 16px;
+            margin-top: 10px;
+        }
+
+        .gift-button {
+            background-color: #ffd6e0;
+            padding: 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px auto;
+        }
+
+        .gift-code {
+            display: none;
+            font-size: 1.4em;
+            color: #e85d95;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Nasheed -->
+    <audio autoplay loop>
+        <source src="https://youtu.be/r1L3H6peu8U?si=QT_LOxvfW7iHEuKI&t=30" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+
+    <!-- Message Pages -->
+    <div class="memo-card active" id="message-card">
+        <div class="image-container">
+            <img id="card-image" src="" alt="Cute Icon" />
+        </div>
+        <h1 id="main-heading"></h1>
+        <div class="sub-message" id="sub-message"></div>
+        <p class="emoticon" id="emoticon"></p>
+        <p class="instructions">Click the next button!! ♡</p>
+        <button id="next-button" class="next-button">Next!! ~w~</button>
+    </div>
+
+    <!-- Screenshot Gallery Page -->
+    <div class="memo-card" id="gallery-card">
+        <h1>Screenshot Gallery</h1>
+        <div class="screenshot-gallery">
+            <input type="file" accept="image/*" id="screenshot-upload" />
+            <textarea placeholder="Write a cute caption..." id="caption"></textarea>
+            <div class="gallery-preview" id="gallery-preview"></div>
+        </div>
+        <button id="to-gift-button" class="next-button">Final Surprise 🎁</button>
+    </div>
+
+    <!-- Gift Page -->
+    <div class="memo-card" id="gift-card">
+        <h1>You've been so patient!</h1>
+        <p>Click the gift below to open it 💝</p>
+        <div class="gift-button" id="gift-button">🎁 Open Gift</div>
+        <div class="gift-code" id="gift-code">GIFT-2025-LOVE-YOU</div>
+    </div>
+
+    <script>
+        const pages = [
+            {
+                heading: "Happy one year and two months!",
+                sub: "mi amor!",
+                emote: "(o´▽`o)",
+                image: "https://placehold.co/100x100/f8c8dc/a47c8a?text=Cinnamoroll",
+            },
+            {
+                heading: "I hope you have a wonderful day!",
+                sub: "You deserve it!",
+                emote: "(ﾉ´ヮ`)ﾉ*:･ﾟ✧",
+                image: "https://placehold.co/100x100/c9e4f7/849db1?text=Kawaii+2",
+            },
+            {
+                heading: "Thank you for everything...",
+                sub: "You make me so happy!",
+                emote: "(*^-^*)",
+                image: "https://placehold.co/100x100/d4f0d4/8eb38e?text=Yay!",
+            },
+            {
+                heading: "I love you!",
+                sub: "Always and forever.",
+                emote: "(´♡‿♡`)",
+                image: "https://placehold.co/100x100/ffdccc/b59280?text=Heart",
+            },
+        ];
+
+        const card = document.getElementById("message-card");
+        const galleryCard = document.getElementById("gallery-card");
+        const giftCard = document.getElementById("gift-card");
+
+        const heading = document.getElementById("main-heading");
+        const sub = document.getElementById("sub-message");
+        const emote = document.getElementById("emoticon");
+        const img = document.getElementById("card-image");
+        const nextBtn = document.getElementById("next-button");
+
+        let currentPage = 0;
+
+        function showPage(index) {
+            const content = pages[index];
+            heading.textContent = content.heading;
+            sub.textContent = content.sub;
+            emote.textContent = content.emote;
+            img.src = content.image;
+        }
+
+        showPage(currentPage);
+
+        nextBtn.addEventListener("click", () => {
+            currentPage++;
+            if (currentPage < pages.length) {
+                showPage(currentPage);
+            } else {
+                card.classList.remove("active");
+                galleryCard.classList.add("active");
+            }
+        });
+
+        // Screenshot caption preview
+        const upload = document.getElementById("screenshot-upload");
+        const captionInput = document.getElementById("caption");
+        const preview = document.getElementById("gallery-preview");
+
+        upload.addEventListener("change", () => {
+            const file = upload.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" alt="Screenshot" />
+                        <p style="margin-top:10px;color:#e85d95;">${captionInput.value}</p>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById("to-gift-button").addEventListener("click", () => {
+            galleryCard.classList.remove("active");
+            giftCard.classList.add("active");
+        });
+
+        document.getElementById("gift-button").addEventListener("click", () => {
+            document.getElementById("gift-code").style.display = "block";
+        });
+    </script>
+</body>
+</html>
